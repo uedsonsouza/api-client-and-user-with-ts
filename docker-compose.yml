@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  client-and-user:
+    container_name: client-and-user
+    build:
+      context: .
+      dockerfile: ${DOCKER_FILE:-Dockerfile.dev}
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./:/client-and-user
+    restart: always
+  
+  redis:
+    container_name: redis
+    image: redis:7.0-alpine
+    ports:
+      - '6379:6379'
+    restart: always
+  
+  postgres:
+    container_name: postgres
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - "./data/postgres:/var/lib/postgresql/data"
+    restart: always
+
+  network:
+    default:
+      driver: bridge
