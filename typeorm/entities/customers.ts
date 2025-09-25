@@ -5,17 +5,17 @@ import {
   BaseEntity,
   UpdateDateColumn,
   CreateDateColumn,
-  ManyToOne,
-  JoinColumn,
+  OneToMany,
+  BeforeInsert,
 } from 'typeorm'
-import { Customers } from './customers'
+import { Contacts } from './contacts'
 
-export enum ContactsStatus {
+export enum CustomersStatus {
   ACTIVE = 'ACTIVE',
   ARCHIVED = 'ARCHIVED',
 }
-@Entity({ name: 'contacts' })
-export class Contacts extends BaseEntity {
+@Entity({ name: 'customers' })
+export class Customers extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number
 
@@ -28,8 +28,8 @@ export class Contacts extends BaseEntity {
   @Column({ type: 'varchar', length: 15, unique: true })
   phone!: string
 
-  @Column({ type: 'enum', enum: ContactsStatus, default: ContactsStatus.ACTIVE })
-  status!: ContactsStatus
+  @Column({ type: 'enum', enum: CustomersStatus, default: CustomersStatus.ACTIVE })
+  status!: CustomersStatus
 
   @CreateDateColumn()
   created_at!: Date
@@ -37,10 +37,13 @@ export class Contacts extends BaseEntity {
   @UpdateDateColumn()
   updated_at!: Date
 
-  @ManyToOne(() => Customers, customer => customer.contacts)
-  @JoinColumn({ name: 'customer_id' })
-  customer!: Customers
+  @OneToMany(() => Contacts, contact => contact.customer)
+  contacts!: Contacts[]
 
-  @Column()
-  customer_id!: number
+  @BeforeInsert()
+  setDefaultStatus() {
+    if (!this.status) {
+      this.status = CustomersStatus.ACTIVE
+    }
+  }
 }
