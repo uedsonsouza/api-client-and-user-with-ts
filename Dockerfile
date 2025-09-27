@@ -16,4 +16,4 @@ COPY ./yarn.lock ./
 
 RUN yarn --production=true
 
-CMD ["node", "src/main.js"]
+CMD ["node", "dist/main.js"]
