@@ -12,10 +12,10 @@ const dataSource = new DataSource({
   username: POSTGRES_USER,
   password: POSTGRES_PASSWORD,
   database: POSTGRES_DB,
-  entities: ['typeorm/entities/*.ts'],
+  entities: ['dist/**/*.entity{.ts,.js}'],
   synchronize: true,
-  migrations: ['typeorm/migrations/*.ts'],
+  migrations: ['dist/typeorm/migrations/*.js'],
   logging: true,
 })
 
-export default dataSource
+module.exports = dataSource
