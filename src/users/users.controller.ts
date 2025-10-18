@@ -1,7 +1,8 @@
-import { Controller, Post, Body } from '@nestjs/common'
+import { Controller, Post, Body, Get, Param, Patch, Delete } from '@nestjs/common'
 import { UsersService } from './users.service'
 import { CreateUserDto } from './dto/create-user.dto'
-// import { UpdateUserDto } from './dto/update-user.dto'
+import { Users } from 'typeorm/entities/users'
+import { UpdateUserDto } from './dto/update-user.dto'
 
 @Controller('users')
 export class UsersController {
@@ -12,23 +13,23 @@ export class UsersController {
     return this.usersService.createUser(createUserDto)
   }
 
-  // @Get()
-  // async findAll() {
-  //   return this.usersService.findAll()
-  // }
+  @Get()
+  async findAll(): Promise<Users[]> {
+    return this.usersService.findAll()
+  }
 
-  // @Get(':id')
-  // async findOne(@Param('id') id: string) {
-  //   return this.usersService.findOne(+id)
-  // }
+  @Get(':id')
+  async findOne(@Param('id') id: number) {
+    return this.usersService.findOne(id)
+  }
 
-  // @Patch(':id')
-  // async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-  //   return this.usersService.update(+id, updateUserDto)
-  // }
+  @Patch(':id')
+  async update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
+    return this.usersService.update(id, updateUserDto)
+  }
 
-  // @Delete(':id')
-  // async remove(@Param('id') id: string) {
-  //   return this.usersService.remove(+id)
-  // }
+  @Delete(':id')
+  async remove(@Param('id') id: number) {
+    return this.usersService.remove(id)
+  }
 }

@@ -1,4 +1,5 @@
-import { IsEmail, IsNotEmpty, IsOptional, IsPhoneNumber, IsString } from 'class-validator'
+import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsPhoneNumber, IsString } from 'class-validator'
+import { CustomersStatus } from 'typeorm/entities/customers'
 export class CreateCustomerDto {
   @IsNotEmpty()
   @IsString()
@@ -13,5 +14,6 @@ export class CreateCustomerDto {
   phone!: string
 
   @IsOptional()
-  status?: 'ACTIVE' | 'ARCHIVED'
+  @IsEnum(CustomersStatus)
+  status?: CustomersStatus
 }

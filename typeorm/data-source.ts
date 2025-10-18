@@ -12,8 +12,8 @@ const dataSource = new DataSource({
   username: POSTGRES_USER,
   password: POSTGRES_PASSWORD,
   database: POSTGRES_DB,
-  entities: ['dist/**/*.entity{.ts,.js}'],
-  synchronize: true,
+  entities: ['dist/**/*.entities{.ts,.js}'],
+  synchronize: false,
   migrations: ['dist/typeorm/migrations/*.js'],
   logging: true,
 })
