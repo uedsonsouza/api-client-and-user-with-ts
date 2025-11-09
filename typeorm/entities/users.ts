@@ -5,8 +5,6 @@ import {
   BaseEntity,
   UpdateDateColumn,
   CreateDateColumn,
-  BeforeInsert,
-  BeforeUpdate,
   ManyToOne,
   JoinColumn,
 } from 'typeorm'
@@ -44,13 +42,6 @@ export class Users extends BaseEntity {
   @Column({ nullable: true })
   file_id!: number
 
-  @BeforeInsert()
-  @BeforeUpdate()
-  async hashPassword() {
-    if (this.password) {
-      this.password_hash = await bcrypt.hash(this.password, 8)
-    }
-  }
   async checkPassword(password: string): Promise<boolean> {
     return bcrypt.compare(password, this.password_hash)
   }
