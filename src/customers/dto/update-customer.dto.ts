@@ -1,6 +1,7 @@
 import { PartialType } from '@nestjs/mapped-types'
 import { CreateCustomerDto } from './create-customer.dto'
-import { IsEmail, IsNotEmpty, IsOptional, IsPhoneNumber, IsString } from 'class-validator'
+import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsPhoneNumber, IsString } from 'class-validator'
+import { CustomersStatus } from 'typeorm/entities/customers'
 
 export class UpdateCustomerDto extends PartialType(CreateCustomerDto) {
   @IsNotEmpty()
@@ -16,5 +17,6 @@ export class UpdateCustomerDto extends PartialType(CreateCustomerDto) {
   phone?: string
 
   @IsOptional()
-  status?: 'ACTIVE' | 'ARCHIVED'
+  @IsEnum(CustomersStatus)
+  status?: CustomersStatus
 }
